@@ -23,7 +23,11 @@
         },
         once: (name, fn) => {
 
-
+            const newFn = (data) => {
+                fn.call(undefined, data)
+                this.off(name, newFn)
+            }
+            eventHub.on(name, newFn)
         }
     }
     eventHub.on('click', console.log)
@@ -35,7 +39,9 @@
 
 {
     class EventHub {
-        map = {}
+        constructor() {
+            this.map = {}
+        }
         on(name, fn) {
             this.map[name] = this.map[name] || []
             this.map[name].push(fn)
@@ -49,6 +55,13 @@
             const index = fnList.indexOf(fn)
             if (index < 0) return
             fnList.splice(index, 1)
+        }
+        once(name, fn) {
+            const newFn = (data) => {
+                fn.call(undefined, data)
+                this.off(name, newFn)
+            }
+            this.on(name, newFn)
         }
     }
     // 使用 
