@@ -50,3 +50,39 @@ FIN: finished ACK: acknowledge 收到
 为什么 2、3 步骤不合并起来呢？看起来是脱裤子放屁。
 答案：2、3 中间服务器很可能还有数据要发送，不能提前发送 FIN。
 
+### 同源策略和跨域
+同源： 如果两个url的 协议、端口和域名一摸一样， 就说两个url是同源的。
+怎么做： 在浏览器里面打开， 默认遵守同源策略
+优点： 保护用户隐私安全和数据安全
+缺点： 很多时候， 前端访问另一个域名的接口， 请求发出去之后， 返回会被同源策略拦截。
+如何解决缺点： 使用跨域
+1、JSONP
+1) JSONP方式实现时， 所有人都可以访问， 需要额外添加token才能防止恶意访问
+2) 只能发送GET请求
+
+2、CORS 
+- 对于简单请求
+响应头添加 Access-Control-Allow-Origin: https://站点
+- 对于复杂请求 
+如： 响应patch请求 需要添加
+```
+Access-Control-Allow-Origin: https://站点
+Access-Control-Allow-Methods: POST, GET, OPTIONS
+Access-Control-Allow-Header: Content-Type
+```
+响应POST请求
+响应头添加 Access-Control-Allow-Origin: https://站点
+
+3、nginx / nodejs 反向代理
+client -> nginx / nodejs -> 真正的后端
+
+4、如果需要携带身份信息， 需要用js在ajax中设置xhr.withCredentials = true
+
+### Session、Cookie、LocalStorage、SessionStorage区别
+cookie会发到服务端 最大4kb
+localStorage不会发到服务端， 可以用5mb
+
+localStorage不会过期， 除非用户手动清除
+sessionStorage在会话结束之后会被清除 （关闭浏览器)
+
+cookie储存在浏览器中， session储存在服务端
