@@ -86,3 +86,10 @@ localStorage不会过期， 除非用户手动清除
 sessionStorage在会话结束之后会被清除 （关闭浏览器)
 
 cookie储存在浏览器中， session储存在服务端
+
+### http1 和 http2的区别
+
+1、http2是二进制传输， 可以将header和body分成帧来传输， http1是字符串传输
+2、http2支持多路复用， 多个请求使用同一个tcp链接， http1不支持。
+3、http2支持压缩head， http1不支持
+4、http2支持服务器推送，http1不支持
